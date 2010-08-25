@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file userunblock.module
+ * Unblocks user personas for staging sites
+ *
+ * To be used as part of the talk at DrupalCon Copenhagen 2010
+ * "Imaginary Users Can Save Your Drupal Site"
+ */
+
+// Change your list of user persona names here
+define("USERUNBLOCK_USERS", "dominic.thomson,another.user,another.user");
+// Change your default email address here
+define("USERUNBLOCK_EMAIL", "userunblock@example.com");
+
+/**
+ * Implementation of hook_init
+ */
+function userunblock_init() {
+  // Have we done this before with this database?
+  if (variable_get('userunblock_done', FALSE)) { 
+    return; 
+  }
+
+  // Loop over defined users, PLUS THE ADMIN USER
+  $users = split(",", USERUNBLOCK_USERS);
+  $users[] = "admin";
+  foreach($users as $name) {
+    $u = user_load(array('name' => $name));
+    // Reset the password to be guessable, and the email address
+    // to point to the default, and unblock the user
+    $u && user_save($u,array('pass' => $name, 'status' => 1,
+      'mail' => USERUNBLOCK_EMAIL
+    ));
+  }
+
+  // Slow: so let's not do this again
+  variable_set('userunblock_done', TRUE);
+}
+

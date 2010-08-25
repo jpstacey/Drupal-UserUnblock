@@ -1,0 +1,6 @@
+; Info file for User Unblock module
+name = User Unblock
+description = Unblocks users for Selenium tests. Also resets passwords to guessable ones. Do NOT enable on a production site.
+core = 6.x
+package = Development
+
