@@ -1,0 +1,3 @@
+CAUTION: this is a development module, intended to be enabled on staging sites.
+
+Do NOT enable this on your production site. It will trash your admin user.
